@@ -23,10 +23,6 @@ function AboutUs() {
                     <img src={pawPrint} alt="Paw print logo" className="w-16 h-16" />
                 </div>
             </div>
-            <button  onClick={()=> navigate(-1)} // goes back to where it was clicked
-            className="px-10 py-4 text-xl font-bold text-[#A60530] uppercase border border-white bg-[rgba(244,244,244,0.12)] rounded-full shadow-lg cursor-pointer hover:bg-[rgba(204,204,204,0.12)]">
-                Back
-            </button>
         </div>
     )
 }

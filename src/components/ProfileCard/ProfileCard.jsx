@@ -47,7 +47,8 @@ function ProfileCard() {
                     <div className="flex flex-col justify-center items-start text-lg bg-white/10 backdrop-blur-md px-6 py-4 rounded-2xl shadow-md w-full max-w-md">
                         <p className="text-2xl font-semibold text-[#A60530] mb-3 text-center w-full">Profile Details</p>
                         <div className="space-y-2 text-[#222] w-full">
-                            <p><span className="font-semibold text-[#A60530]">Full Name:</span> {userData.fullname}</p>
+                            <p><span className="font-semibold text-[#A60530]">First Name:</span> {userData.fName}</p>
+                            <p><span className="font-semibold text-[#A60530]">Last Name:</span> {userData.lName}</p>
                             <p><span className="font-semibold text-[#A60530]">Username:</span> {userData.username}</p>
                             <p><span className="font-semibold text-[#A60530]">Email:</span> {userData.email}</p>
                             <p><span className="font-semibold text-[#A60530]">Contact Number:</span> {userData.contactNumber}</p>
@@ -56,7 +57,7 @@ function ProfileCard() {
                         </div>
                     </div>
                 }
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-4 w-full items-center">
                     <Link to="/editprofile" className="px-12 py-2 text-lg sm:text-xl font-bold text-[#A60530] border border-white bg-[rgba(244,244,244,0.12)] rounded-full shadow-lg cursor-pointer hover:bg-[rgba(204,204,204,0.12)]">Edit Profile</Link>
                     <button
                         onClick={handleLogOut}

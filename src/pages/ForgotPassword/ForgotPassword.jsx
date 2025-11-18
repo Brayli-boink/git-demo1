@@ -1,10 +1,11 @@
 import { Link } from 'react-router'
 import './forgotpassword.css'
 import { useNavigate } from 'react-router';
+import { useState } from 'react';
 
 export default function ForgotPassword() {
      const navigate = useNavigate();
-     const [email, setEmail] = useState();
+     const [email, setEmail] = useState ();
 
      function resetMessage(){
         alert("Ough ulul");

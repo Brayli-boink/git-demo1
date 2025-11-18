@@ -1,11 +1,13 @@
 import FoundHome from '../../components/FoundHome/FoundHome'
 import LostHome from '../../components/LostHome/LostHome'
 import HomeHeader from '../../components/HomeHeader/HomeHeader'
+import ReportLostPet from '../ReportLostPet/ReportLostPet'
 import Notification from '../../components/Notification/Notification'
 import Announcement from '../../components/Announcement/Announcement'
 import './homepage.css'
 import { useNavigate } from 'react-router'
 import { auth } from '../../firebase-config'
+import { Link } from 'react-router'
 
 export default function Homepage() {
 
@@ -49,34 +51,10 @@ export default function Homepage() {
                     <LostHome />
                     <LostHome />
                 </div>
-
-                <div className='space-between'>
-                    <p className='left-part'> Notifications </p>
-                    <p className='left-part'> Announcement </p>
-                </div>
-
-                <div className ="system-notifs">
-                    <div id='notif-line'>
-                        <Notification />
-                        <Notification />
-                        <Notification />
-                    </div>
-
-                    <div id='ann-line'>
-                        <Announcement />
-                        <Announcement />
-                        <Announcement />
-                </div>
-            </div>
-            <button id="logOut" onClick={handleLogOut}
-            className="fixed bottom-6 right-6 px-6 py-2 text-white bg-red-600 hover:bg-red-700 font-semibold rounded-full shadow-md transition-colors duration-200"
-            >
-            Log Out
-            </button>
             </div>
             <div id='button-pets'>
-                <button id='reported-pets'> Your Reported Pets </button>
-                <button id='found-pets'> Your Found Pets </button>
+                <Link to="/reportedLostPets" id='reported-pets'> Your Reported Pets </Link>
+                <Link to ="/reportedFoundPets" id='found-pets'> Your Found Pets </Link>
             </div>
         </>
     )

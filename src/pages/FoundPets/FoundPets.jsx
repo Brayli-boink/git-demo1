@@ -1,11 +1,13 @@
 import Header from "../../components/Header/Header";
 import FoundPetCard from "../../components/FoundPetCard/FoundPetCard";
 import { Link } from "react-router";
+import SearchBar from "../../components/SearchBar/searchBar";
 
 function FoundPets() {
     return (
         <div className="flex flex-col gap-4 justify-center items-center w-full h-auto mt-8">
             <div className="flex flex-col items-center gap-8 p-8 w-full bg-[rgba(255,255,255,0.21)] border border-white rounded-3xl shadow-lg">
+            <SearchBar />
             <Header title={"Found Pets"} subtitle={"This page shows all the pets that people have found. You can view details about each pet and contact the person who found them to get in touch."}/>
                <div className="w-full sm:w-[90%] h-auto flex justify-center items-center ">
                     <div className="flex flex-wrap justify-center gap-6">

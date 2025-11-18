@@ -7,12 +7,17 @@ import { ref, set } from "firebase/database";
 
 function Register() {
 
-    const [name, setName] = useState();
+    const [fName, setFName] = useState();
+    const [lName, setLName] = useState();
     const [username, setUsername] = useState();
     const [contactNumber, setContactNumber] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
+    const [confirmPassword, setConfirmPassword] = useState();
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+
+    
 
         function verifyEmail(evt){
             let tempEmail = evt.target.value;
@@ -30,23 +35,43 @@ function Register() {
             }
         }
 
-        function verifyName(evt){
-            let tempName = evt.target.value;
-            let errName = document.querySelector("#errName");
-            errName.innerHTML = "";
-            setName(null);
+        function verifyFName(evt){
+            let tempFName = evt.target.value;
+            let errFName = document.querySelector("#errFName");
+            errFName.innerHTML = "";
+            setFName(null);
 
-            if (tempName.trim().length === 0) {
-                errName.innerHTML = "Blank spaces are not allowed!";
+            if (tempFName.trim().length === 0) {
+                errFName.innerHTML = "Blank spaces are not allowed!";
              }
-            else if (!/^[A-Za-z]+(?: [A-Za-z]+)*$/.test(tempName)) {
-                errName.innerHTML = "Name must contain only letters!";
+            else if (!/^[A-Za-z]+(?: [A-Za-z]+)*$/.test(tempFName)) {
+                errFName.innerHTML = "First name must contain only letters!";
             }
-            else if(tempName.trim().length < 2){
-                errName.innerHTML = "Name must be at least 2 letters!";
+            else if(tempFName.trim().length < 2){
+                errFName.innerHTML = "First name must be at least 2 letters!";
             }
             else{
-                setName(tempName);
+                setFName(tempFName);
+            }
+        }
+
+        function verifyLName(evt){
+            let tempLName = evt.target.value;
+            let errLName = document.querySelector("#errLName");
+            errLName.innerHTML = "";
+            setLName(null);
+
+            if (tempLName.trim().length === 0) {
+                errLName.innerHTML = "Blank spaces are not allowed!";
+             }
+            else if (!/^[A-Za-z]+(?: [A-Za-z]+)*$/.test(tempLName)) {
+                errLName.innerHTML = "Last name must contain only letters!";
+            }
+            else if(tempLName.trim().length < 2){
+                errLName.innerHTML = "Last name must be at least 2 letters!";
+            }
+            else{
+                setLName(tempLName);
             }
         }
 
@@ -105,6 +130,24 @@ function Register() {
             }
         }
 
+        function verifyConfirmPassword(evt){
+            let tempConfirmPass = evt.target.value;
+            let errConfirmPass = document.querySelector("#errConfirmPassword");
+            errConfirmPass.innerHTML = "";
+            setConfirmPassword(null);
+
+            
+            if (!tempConfirmPass || tempConfirmPass.trim() === "") {
+            errConfirmPass.innerHTML = "Blank spaces are not allowed!";
+            }
+            else if (tempConfirmPass !== password) {
+            errConfirmPass.innerHTML = "Passwords do not match!";
+            }
+            else {
+            setConfirmPassword(tempConfirmPass);
+            }
+        }
+
         function verifyContactNumber(evt){
             let tempNumber = evt.target.value;
             let errNumber = document.querySelector("#errContactNumber");
@@ -131,7 +174,8 @@ function Register() {
             const user = userCredential.user;
 
             const storeUserInformation = {
-            fullname: name,
+            fName: fName,
+            lName: lName,
             username: username,
             contactNumber: contactNumber,
             email: email
@@ -144,8 +188,7 @@ function Register() {
             alert(error.message);
             setEmail("");
             setPassword("");
-            setName("");
-            setUsername("");
+            setConfirmPassword("");
         });
     }
 
@@ -163,17 +206,26 @@ function Register() {
                 <div className="flex flex-col gap-4 w-full sm:w-[80%] md:w-[70%]">
                     <p className="text-base sm:text-lg text-center">To help all our pet owners in this community, even you, by joining us. </p>
                     <div>
-                        <p>Full Name</p>
-                        <input type="text" placeholder="Full Name" className="border rounded-full px-6 py-2 w-full text-sm sm:text-base"
-                        onInput={(evt)=>verifyName(evt)} value={name}/>
-                        <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errName"></p>
+                        <p>First Name</p>
+                        <input type="text" placeholder="First Name" className="border rounded-full px-6 py-2 w-full text-sm sm:text-base"
+                        onInput={(evt)=>verifyFName(evt)} value={fName}/>
+                        <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errFName"></p>
                     </div>
+
+                    <div>
+                        <p>Last Name</p>
+                        <input type="text" placeholder="Last Name" className="border rounded-full px-6 py-2 w-full text-sm sm:text-base"
+                        onInput={(evt)=>verifyLName(evt)} value={lName}/>
+                        <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errLName"></p>
+                    </div>
+
                     <div>
                         <p>Username</p>
                         <input type="text" placeholder="Username" className="border rounded-full px-6 py-2 w-full text-sm sm:text-base"
                         onInput={(evt)=>verifyUsername(evt)} value={username}/>
                         <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errUsername"></p>
                     </div>
+
                     <div>
                         <p>Contact Number</p>
                         <input type="email" placeholder="Contact Number" className="border rounded-full px-6 py-2 w-full text-sm sm:text-base"
@@ -188,15 +240,39 @@ function Register() {
                         <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errEmail"></p>
                     </div>
 
+                    <div className="relative"> <p>Password</p>
+                        <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="e.g., Admin@123"
+                        className="border rounded-full px-6 py-2 w-full text-sm sm:text-base pr-12"
+                        onInput={(evt) => verifyPassword(evt)}
+                        value={password}/>
+                        <button type="button" onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-[59%] -translate-y-1/2 text-gray-600">
+                        {showPassword ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        <circle cx="12" cy="12" r="3" strokeWidth="1.8"></circle>
+                        </svg>
+                        ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
+                        d="M3 3l18 18M10.58 10.58A3 3 0 0113.4 13.4M7.94 7.94A7.003 7.003 0 0112 7c4.477 0 8.268 2.943 9.542 7a12.297 12.297 0 01-1.26 2.63M6.7 6.7C4.31 8.24 2.75 10.46 2.458 12c.64 2.04 2.05 3.9 4.01 5.2A11.76 11.76 0 0012 19c1.62 0 3.17-.31 4.57-.88" />
+                        </svg>
+                        )}
+                    </button> <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errPassword"></p>
+                    </div>
+
                     <div>
-                        <p>Password</p>
-                        <input type="password" placeholder="Password" className="border rounded-full px-6 py-2 w-full text-sm sm:text-base"
-                        onInput={(evt)=>verifyPassword(evt)} value={password}/>
-                        <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errPassword"></p>
+                        <p>Confirm Password</p>
+                        <input type="password" placeholder="Confirm Password" className="border rounded-full px-6 py-2 w-full text-sm sm:text-base"
+                        onInput={(evt)=>verifyConfirmPassword(evt)} value={confirmPassword}/>
+                        <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errConfirmPassword"></p>
                     </div>
                     
                     <div className="block w-full mt-2">
-                    {email && name && username && password ? (
+                    {email && fName && lName && username && password && confirmPassword ? (
                     <button
                     onClick={registerUser}
                     className="block w-full text-center text-xl sm:text-2xl font-semibold bg-[#A60530] text-[#F2C879] py-2 rounded-full uppercase cursor-pointer"> 

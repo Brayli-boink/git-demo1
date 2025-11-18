@@ -1,0 +1,8 @@
+.search-bar {
+    padding: 10px;
+    width: 80%;
+    max-width: 600px;
+    background-color: rgba(254, 254, 254, 0.21);
+    border-radius: 25px;
+    border: rgba(254, 254, 254, 0.61) solid 1px;
+}

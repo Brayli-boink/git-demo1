@@ -11,7 +11,8 @@ export default function EditProfile() {
 
     const [user, setUser] = useState(); 
     const [userData, setUserData] = useState();
-    const [name, setName] = useState();
+    const [fName, setFName] = useState();
+    const [lName, setLName] = useState();
     const [username, setUsername] = useState();
     const [contactNumber, setContactNumber] = useState();
     const [email, setEmail] = useState();
@@ -22,7 +23,8 @@ export default function EditProfile() {
                 get(ref(db, `user/${u.uid}`)).then((snapshot)=>{
                 const data = snapshot.val();  
                 setUserData(data);           
-                setName(data.fullname);       
+                setFName(data.fName);
+                setLName(data.lName);   
                 setUsername(data.username);
                 setContactNumber(data.contactNumber);
                 setEmail(data.email);
@@ -32,7 +34,8 @@ export default function EditProfile() {
 
     function updateUserData() {
                 let storeUserInformation = {
-                fullname: name,
+                fName: fName,
+                lName: lName,
                 username: username,
                 contactNumber: contactNumber,
                 email: email
@@ -51,14 +54,16 @@ export default function EditProfile() {
 
                 {user && userData &&
                     <div id='edit-form'>
-                        <p> Full Name </p>
-                        <input type="text" defaultValue={userData.fullname} onChange={(e)=>setName(e.target.value)} />
+                        <p> First Name </p>
+                        <input type="text" defaultValue={userData.fName} onChange={(e)=>setFName(e.target.value)} />
+                        <p> Last Name </p>
+                        <input type="text" defaultValue={userData.lName} onChange={(e)=>setLName(e.target.value)} />
                         <p> Username </p>
                         <input type="text" defaultValue={userData.username} onChange={(e)=>setUsername(e.target.value)}/>
                         <p> Contact Number </p>
                         <input type="text" defaultValue={userData.contactNumber} onChange={(e)=>setContactNumber(e.target.value)}/>
                         <p> Email </p>
-                        <input type="text" defaultValue={userData.email} onChange={(e)=>setEmail(e.target.value)}/>
+                        <input type="text" defaultValue={userData.email} onChange={(e)=>setEmail(e.target.value)} readOnly/>
                     </div>
                 }
                 

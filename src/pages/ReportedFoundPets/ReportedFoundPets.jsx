@@ -10,14 +10,7 @@ function ReportedFoundPets() {
                 <div className="w-full sm:w-[90%] h-auto flex justify-center items-center ">
                     <div className="flex flex-wrap justify-center gap-6">
                         <ReportedFoundPetCard />
-                        <ReportedFoundPetCard />
-                        <ReportedFoundPetCard />
-                        <ReportedFoundPetCard />
-
-                        <ReportedFoundPetCard />
-                        <ReportedFoundPetCard />
-                        <ReportedFoundPetCard />
-                        <ReportedFoundPetCard />
+                        
                     </div>
                 </div>
             </div>
