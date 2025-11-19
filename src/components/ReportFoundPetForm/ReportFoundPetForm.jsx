@@ -20,6 +20,7 @@ function ReportFoundPetForm() {
     const [conNum, setConNum] = useState("");
     const [email, setEmail] = useState("");
     const [age, setAge] = useState("");
+    const [picture, setPicture] = useState("");
     
         const [user, setUser] = useState(); // holds the users
         const [userData, setUserData] = useState(); // holds user
@@ -57,7 +58,8 @@ function ReportFoundPetForm() {
             ownerName: ownerName,
             conNum: conNum,
             email: email,
-            age: age
+            age: age,
+            petPhoto: picture
         };
     
         const petId = Math.random().toString(36).substr(2, 9); // e.g., "k3j4h9a1x"
@@ -283,6 +285,40 @@ function ReportFoundPetForm() {
             }
         }
 
+        function verifyPetPhoto(evt) {
+            let tempPhoto = evt.target.value;
+            let errPhoto = document.querySelector("#errPicture");
+            errPhoto.innerHTML = "";
+            setPicture(null);
+
+            
+            
+        if (tempPhoto === "") {
+        errPhoto.innerHTML = "Blank spaces are not allowed!";
+        setPicture("");
+        return;
+            }
+
+        if (!tempPhoto.startsWith("https://")) {
+        errPhoto.innerHTML = "URL must start with https://";
+        setPicture("");
+        return;
+        }  
+        setPicture(tempPhoto);
+    }
+
+    // function verifyProfile(evt){
+    //     let tempProfile=evt.target.value;
+    //     let errProfile= document.querySelector("#errPicture");
+    //     errProfile.innerHTML="";
+    //     setPicture(null);
+
+    //     if (tempProfile.length <=0) errProfile.innerHTML = "Blank spaces are not allowed!"
+    //     else if (!tempProfile.match(/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i)) errProfile.innerHTML = "Invalid link!";
+    //     else setPicture(tempProfile);
+    // }
+
+
 
     return (
         <div className="w-full sm:w-[95%] md:w-[85%] h-auto flex flex-col bg-[rgba(255,255,255,0.21)] rounded-3xl border border-white  shadow-md">
@@ -338,9 +374,9 @@ function ReportFoundPetForm() {
                     onInput={(evt)=>verifyAdditionalDetails(evt)} value={addDetails}/>
                     <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errAdditionalDetails"></p>
                     
-                    <p className='text-2xl sm:text-3xl font-semibold text-[#A60530]'>C. Owner Information</p>
+                    <p className='text-2xl sm:text-3xl font-semibold text-[#A60530]'>C. Founder Information</p>
                     
-                    <p className='text-lg text-[#583523]'>Owner Name<span className="text-red-600"> *</span></p>
+                    <p className='text-lg text-[#583523]'>Founder Name<span className="text-red-600"> *</span></p>
                     <input type="text" placeholder='Name of the Owner' className='w-full px-3 py-2 rounded-full border' 
                     onInput={(evt)=>verifyOwnerName(evt)} value={ownerName}/>
                     <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errOwnerName"></p>
@@ -363,13 +399,16 @@ function ReportFoundPetForm() {
                     <input type="text" placeholder='Pet’s age (if known)' className='w-full px-3 py-2 rounded-full border'
                     onInput={(evt)=>verifyAge(evt)} value={age}/>
                     <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errAge"></p>
-                    <p className='text-lg text-[#583523]'>Photo of Pet</p>
-                    <input type="text" placeholder='Upload a clear image of the found pet (JPG or PNG)' className='w-full px-3 py-2 rounded-full border' />
+                    
+                    <p className='text-lg text-[#583523]'>Photo of Pet<span className="text-red-600"> *</span></p>
+                    <input type="text" placeholder='Upload a clear image of the found pet (JPG or PNG)' className='w-full px-3 py-2 rounded-full border' 
+                    onInput={(evt)=>verifyProfile(evt)} value={picture}/>
+                    <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errPicture"></p>
                 </div>
             </div>
             <div className='w-full flex flex-col gap-2 items-center py-4 rounded-3xl'>
 
-                {species && dateLost && ownerName && conNum && email  ? (
+                {species && dateLost && ownerName && conNum && email && picture  ? (
                 <button onClick={uploadFoundPet} 
                 className="w-64 py-4 text-xl font-semibold text-[#FFCC6D] uppercase bg-[#A60530] rounded-full cursor-pointer flex items-center justify-center" >
                     Report Found Pet</button>

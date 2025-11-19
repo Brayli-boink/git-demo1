@@ -78,7 +78,7 @@
 #warning {
     font-style: italic;
     font-size: 0.7em;
-    margin-top: 1.3rem;
+    margin-top: 2rem;
     margin-bottom: 1.3rem;
 }
 #back-found-single {
@@ -120,4 +120,24 @@
     #extra-deets {
         word-break: break-all;
     }
+}
+
+#pet-photo-container {
+    width: 25%;             /* Circle takes 30% of the parent width */
+    aspect-ratio: 1 / 1;    /* Ensures it's always a perfect circle */
+    border-radius: 50%;     
+    overflow: hidden;       
+    margin-bottom: 1.5rem;
+    border: 3px solid rgba(254, 254, 254, .3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 250px;       /* Optional: prevents it from growing too big on large screens */
+    min-width: 100px;       /* Optional: prevents it from shrinking too small */
+}
+
+#pet-photo-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;     
 }

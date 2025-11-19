@@ -82,7 +82,7 @@ function Register() {
             setUsername(null); 
 
             if (tempUser.length <= 0) {
-                errUser.innerHTML = "Username cannot be blank!";
+                errUser.innerHTML = "Blank spaces are not allowed!";
             } 
             else if (tempUser.length < 5) {
                 errUser.innerHTML = "Username must be at least 5 characters!";
@@ -153,12 +153,15 @@ function Register() {
             let errNumber = document.querySelector("#errContactNumber");
             errNumber.innerHTML = "";
             setContactNumber(null);
-            
-            if (!tempNumber.startsWith("09")){
-                errNumber.innerHTML = "Valid number must start with (09)";
+
+            if (!tempNumber || tempNumber.trim() === "") {
+            errNumber.innerHTML = "Blank spaces are not allowed!";
             }
             else if (!/^[0-9]+$/.test(tempNumber)) {
                 errNumber.innerHTML = "Valid number cannot contain letters or symbols!";
+            }
+            else if (!tempNumber.startsWith("09")){
+                errNumber.innerHTML = "Valid number must start with (09)";
             }
             else if (tempNumber.trim().length !== 11) {
                 errNumber.innerHTML = "Valid number must be exactly 11 digits!";
@@ -290,7 +293,7 @@ function Register() {
 
                     <div className="flex justify-center gap-1">
                         <p>Already have an account?</p>
-                        <Link to="/login" className="cursor-pointer hover:text-[#A60530]">Sign-in</Link>
+                        <Link to="/login" className="cursor-pointer hover:text-[#FF0000] text-[#A60530] hover:decoration-[#FF0000] underline decoration-[#A60530]">Sign-in</Link>
                     </div>
                 </div>
             </div>

@@ -8,6 +8,8 @@ function ProfileCard() {
 
     const [user, setUser] = useState(); // holds the users
     const [userData, setUserData] = useState(); // holds user data
+    const [lostCount, setLostCount] = useState(0); // reported lost pets
+    const [foundCount, setFoundCount] = useState(0); // reported found pets
     const navigate = useNavigate();
 
     const handleLogOut = () => {
@@ -26,10 +28,22 @@ function ProfileCard() {
                 onValue(ref(db, `user/${u.uid}`), (snapshot) => {
                     setUserData(snapshot.val());
                 })
+                onValue(ref(db, "lostPets"), (snapshot) => {
+                    const data = snapshot.val() || {};
+                    const count = Object.values(data).filter(pet => pet.lostPoster === u.uid).length;
+                    setLostCount(count);
+                });
+                onValue(ref(db, "foundPets"), (snapshot) => {
+                    const data = snapshot.val() || {};
+                    const count = Object.values(data).filter(pet => pet.foundPoster === u.uid).length;
+                    setFoundCount(count);
+                })
             }
             else {
                 setUser(null);
                 setUserData(null);
+                setLostCount(0);
+                setFoundCount(0);
             }
         })
     }, []);
@@ -40,9 +54,14 @@ function ProfileCard() {
                 <p className="text-4xl sm:text-5xl font-bold text-[#A60530]">User Profile</p>
             </div>
             <div className="flex flex-col justify-center items-center gap-10">
-                <div className="w-32 sm:w-36 h-32 sm:h-36">
-                    <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="" className=" w-full h-full rounded-full" />
-                </div>
+    {/* Profile picture container */}
+    <div className="w-32 sm:w-36 h-32 sm:h-36 rounded-full overflow-hidden flex justify-center items-center">
+        <img
+            src={userData?.photoURL || "/src/assets/user 2.png"}
+            alt="Profile"
+            className="w-full h-full object-cover"
+        />
+    </div>
                 {user && userData &&
                     <div className="flex flex-col justify-center items-start text-lg bg-white/10 backdrop-blur-md px-6 py-4 rounded-2xl shadow-md w-full max-w-md">
                         <p className="text-2xl font-semibold text-[#A60530] mb-3 text-center w-full">Profile Details</p>
@@ -52,8 +71,8 @@ function ProfileCard() {
                             <p><span className="font-semibold text-[#A60530]">Username:</span> {userData.username}</p>
                             <p><span className="font-semibold text-[#A60530]">Email:</span> {userData.email}</p>
                             <p><span className="font-semibold text-[#A60530]">Contact Number:</span> {userData.contactNumber}</p>
-                            <p><span className="font-semibold text-[#A60530]">Reported Lost Pets:</span> —</p>
-                            <p><span className="font-semibold text-[#A60530]">Reported Found Pets:</span> —</p>
+                            {/* <p><span className="font-semibold text-[#A60530]">Reported Lost Pets:</span> {lostCount}</p>
+                            <p><span className="font-semibold text-[#A60530]">Reported Found Pets:</span> {foundCount}</p> */}
                         </div>
                     </div>
                 }

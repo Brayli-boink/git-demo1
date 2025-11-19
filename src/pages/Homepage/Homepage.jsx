@@ -30,31 +30,29 @@ export default function Homepage() {
 
                 <div className='space-between'>
                     <p className='left-part'> Found Pets </p>
-                    <p className='right-part'> View All </p>
+                    <Link to="/foundPets" className='right-part'>
+                    View All
+                    </Link>
                 </div>
 
                 <div className = 'found-component'>
-                    <FoundHome />
-                    <FoundHome />
-                    <FoundHome />
                     <FoundHome />
                 </div>
 
                 <div className='space-between'>
                     <p className='left-part'> Lost Pets </p>
-                    <p className='right-part'> View All </p>
+                    <Link to="/lostPets" className='right-part'>
+                    View All
+                    </Link>
                 </div>
 
                 <div className = 'lost-component'>
                     <LostHome />
-                    <LostHome />
-                    <LostHome />
-                    <LostHome />
                 </div>
             </div>
             <div id='button-pets'>
-                <Link to="/reportedLostPets" id='reported-pets'> Your Reported Pets </Link>
-                <Link to ="/reportedFoundPets" id='found-pets'> Your Found Pets </Link>
+                <Link to="/reportedLostPets" id='reported-pets'> Your Reported Lost Pets </Link>
+                {/* <Link to ="/reportedFoundPets" id='found-pets'> Your Found Pets </Link> */}
             </div>
         </>
     )

@@ -1,22 +1,46 @@
-.pet-component {
+/* .pet-component {
     display: flex;
-    flex-flow: column wrap;
+    flex-flow: column;
     align-items: center;
-    justify-content: center;
     text-align: center;
+
     background-color: rgba(254,254,254, 0.20);
     border-radius: 20px;
-    width: 50%;
+    width: 100%;
     border: rgba(254, 254, 254, 0.3) solid 1px;
     color: #583523;
     font-weight: 600;
+} */
+.pet-component {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(254,254,254, 0.20);
+    border-radius: 20px;
+    width: 20%; /* FIXED CARD SIZE */
+    min-width: 200px; /* optional, prevents too small on small screens */
+    border: rgba(254, 254, 254, 0.3) solid 1px;
+    color: #583523;
+    font-weight: 600;
+    text-align: center;
 }
+
 .pet-component > img {
     width: 100%;
+    border-radius: 20px 20px 0 0;
 }
 #single-view {
     margin-top: 1.2rem;
     margin-bottom: 1.2rem;
     font-weight: 300;
     cursor: pointer;
+}
+.found-home-wrapper {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;   /* CENTER THE CARDS */
+    gap: 5rem;                  /* spacing between cards */
+    padding: 20px;
 }

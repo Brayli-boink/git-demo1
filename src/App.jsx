@@ -77,13 +77,16 @@ function App() {
               <Route path="/lostPets" element={<LostPets />}/>
               <Route path="/reportedFoundPets" element={<ReportedFoundPets />}/>
               <Route path="/foundPets" element={<FoundPets />}/>
-              <Route path="/editLostPet" element={<EditLostPet />}/>
+              {/* <Route path="/editLostPet" element={<EditLostPet />}/> */}
+              <Route path="/editLostPet/:id" element={<EditLostPet />}/>
               <Route path="/reportFoundPet" element={<ReportFoundPet />}/>
               <Route path="/editFoundPet" element={<EditFoundPet />}/>
               <Route path="/homepage" element={<Homepage />}/>
               <Route path="/editprofile" element={<EditProfile />}/>
-              <Route path="/lostsingleview" element={<LostSingleView />}/> 
-              <Route path="/foundsingleview" element={<FoundSingleView />}/> 
+              {/* <Route path="/lostSingleSiew" element={<LostSingleView />}/>  */}
+              {/* <Route path="/foundSingleView" element={<FoundSingleView />}/> */}
+              <Route path="/lostSingleView/:id" element={<LostSingleView />}/> 
+              <Route path="/foundSingleView/:id" element={<FoundSingleView />} /> 
               <Route path="*" element={<Navigate to="/homepage"/>}/>
               </>
               }

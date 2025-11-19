@@ -27,12 +27,12 @@
     cursor: pointer;
 }
 .found-component, .lost-component {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 75px;
-    margin-top: 1.2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
+  margin-top: 1.2rem;
+  width: 100%;
 }
 .system-notifs {
     display: flex;
@@ -69,3 +69,4 @@
     border: rgba(254, 254, 254, 0.3) solid 1px;
     cursor: pointer;
 }
+

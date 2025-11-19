@@ -10,6 +10,8 @@ function Navbar2() {
     const location = useLocation();
     const dropdownRef = useRef(null);
 
+    const isActive = (path) => location.pathname === path;
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
@@ -41,24 +43,48 @@ function Navbar2() {
     return (
         <div className="w-full h-12 py-6 flex items-center border border-[#F4F4F4] rounded-full shadow-lg bg-[rgba(244,244,244,0.12)]">
             <div className="w-[90%] mx-auto flex justify-between items-center">
-                <Link to="/" className="text-lg font-bold text-[#A60530] hover:underline">
+                <Link
+                    to="/"
+                    className={`text-lg font-bold ${
+                        isActive("/") 
+                            ? "text-[#A60530]" 
+                            : "text-[#A60530] hover:underline hover:decoration-[#A60530]"
+                    }`}
+                >
                     SafePaws
                 </Link>
 
-                <div ref={dropdownRef} style={{ position: "relative" }}>
-                    <button
-                        className="text-lg font-semibold cursor-pointer"
-                        onClick={() => setOpenDropdown((prev) => !prev)}
-                    >
-                        Pet <i className="fa-solid fa-caret-down"></i>
-                    </button>
-                    {openDropdown && <DropdownMenu />}
-                </div>
+                {user && (
+                    <div ref={dropdownRef} style={{ position: "relative" }}>
+                        <button
+                            className="text-lg font-semibold cursor-pointer"
+                            onClick={() => setOpenDropdown((prev) => !prev)}
+                        >
+                            Pet <i className="fa-solid fa-caret-down"></i>
+                        </button>
+                        {openDropdown && <DropdownMenu />}
+                    </div>
+                )}
 
-                <Link to="/about" className="text-lg font-semibold hover:underline">
+                <Link
+                    to="/about"
+                    className={`text-lg font-semibold ${
+                        isActive("/about")
+                            ? "text-[#A60530]"
+                            : "hover:underline hover:decoration-[#000000]"
+                    }`}
+                >
                     About
                 </Link>
-                <Link to="/contactus" className="text-lg font-semibold hover:underline">
+
+                <Link
+                    to="/contactus"
+                    className={`text-lg font-semibold ${
+                        isActive("/contactus")
+                            ? "text-[#A60530]"
+                            : "hover:underline hover:decoration-[#000000]"
+                    }`}
+                >
                     Contact
                 </Link>
 
@@ -66,7 +92,7 @@ function Navbar2() {
                     <div className="flex gap-2">
                         <Link to="/profile">
                             <img
-                                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_lvjjRAVDQ-nBDq_4dy1xCyRjjDaHV-Tqcw&s"
+                                src={user.photoURL || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_lvjjRAVDQ-nBDq_4dy1xCyRjjDaHV-Tqcw&s'}
                                 alt="Profile"
                                 className="w-9 h-9 rounded-full border-2 border-[#A60530] object-cover cursor-pointer"
                             />
@@ -79,7 +105,14 @@ function Navbar2() {
                         </button> */}
                     </div>
                 ) : (
-                    <Link to="/login" className="text-lg font-bold text-[#A60530] cursor-pointer hover:underline">
+                    <Link
+                        to="/login"
+                        className={`text-lg font-bold ${
+                            isActive("/login")
+                                ? "text-[#A60530]"
+                                : "text-[#A60530] hover:underline hover:decoration-[#A60530]"
+                        }`}
+                    >
                         Sign-In
                     </Link>
                 )}

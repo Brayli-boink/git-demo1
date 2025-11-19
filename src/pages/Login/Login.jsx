@@ -8,52 +8,102 @@ function Login() {
 
     const navigate = useNavigate();
     const [email, setEmail] = useState();
+    const [emailValid, setEmailValid] = useState(false);
     const [password, setPassword] = useState();
+    const [passwordValid, setPasswordValid] = useState(false);
     const [responseMessage, setResponseMessage] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
     function loginUser() {
-        signInWithEmailAndPassword(auth, email, password).then(() => {
+    signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
             setTimeout(() => {
-                navigate("/homepage")
+                navigate("/homepage");
             }, 3000);
-        }).catch((error) => {
+        })
+        .catch((error) => {
+            let message = "";
+
             switch (error.code) {
                 case "auth/invalid-email":
-                    setResponseMessage("Invalid email address format.");
+                    message = "Invalid email address format.";
                     break;
 
                 case "auth/user-disabled":
-                    setResponseMessage(
-                        "This account has been disabled. Please contact support."
-                    );
+                    message = "This account has been disabled. Please contact support.";
                     break;
 
                 case "auth/user-not-found":
-                    setResponseMessage("No account found with this email.");
+                    message = "No account found with this email.";
+                    break;
+
+                case "auth/missing-password":
+                    message = "Password field is empty.";
                     break;
 
                 case "auth/wrong-password":
-                    setResponseMessage("Invalid user credentials.");
+                    message = "Invalid user credentials.";
                     break;
 
                 case "auth/too-many-requests":
-                    setResponseMessage(
-                        "Too many failed login attempts. Please try again later."
-                    );
+                    message = "Too many failed login attempts. Please try again later.";
                     break;
 
                 default:
-                    setResponseMessage("Invalid user credentials.");
+                    message = "Invalid user credentials.";
                     break;
             }
 
-            //alert(error.message);
-            console.error("Oops:", error.message);
-            //setEmail("");
+            // show the error
+            setResponseMessage(message);
+            setEmail("");
             setPassword("");
-        })
+            setEmailValid(false);
+            setPasswordValid(false);
+
+            // hide the error after 3 seconds
+            setTimeout(() => {
+                setResponseMessage("");
+            }, 2500);
+
+            console.error("Oops:", error.message);
+        });
+}
+
+        function verifyEmail(evt){
+            let tempEmail = evt.target.value;
+            let errEmail = document.querySelector("#errEmail");
+            errEmail.innerHTML = "";
+            // setEmail(null);
+
+            if(tempEmail.trim().length <= 0){
+                errEmail.innerHTML = "Blank spaces are not allowed!";
+                setEmailValid(false);
+            }else if(!tempEmail.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)){
+                errEmail.innerHTML = "Invalid email address!";
+                setEmailValid(false);
+        }else{
+            setEmailValid(true);
+        }
     }
+    
+        function verifyPassword(evt){
+            let tempPass = evt.target.value;
+            let errPass = document.querySelector("#errPassword");
+            errPass.innerHTML = "";
+            // setPassword(null);
+
+            if(tempPass.length <= 0){
+                errPass.innerHTML = "Blank spaces are not allowed!";
+                setPasswordValid(false);
+            }
+            else if(tempPass.length < 8){
+                errPass.innerHTML = "Password must be at least 8 characters!";
+                setPasswordValid(false);
+            }else{
+                setPasswordValid(true);
+            }
+        }
 
     return (
         <div className="flex justify-center items-center w-full h-auto mt-8">
@@ -73,7 +123,8 @@ function Login() {
                         )}
                         <p>Email</p>
                         <input type="text" placeholder="Enter your email" value={email} className="border rounded-full px-6 py-2 w-full text-sm sm:text-base"
-                            onChange={(e) => setEmail(e.target.value)} />
+                            onChange={(e) => setEmail(e.target.value)} onInput={verifyEmail}/>
+                            <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errEmail"></p>
                     </div>
                     {/*  <div>
                         <p>Password</p>
@@ -89,13 +140,14 @@ function Login() {
                             placeholder="Enter your password"
                             value={password}
                             className="border rounded-full px-6 py-2 w-full text-sm sm:text-base pr-12"
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => { setPassword(e.target.value); verifyPassword(e);}} 
                         />
+                        <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errPassword"></p>
 
                         <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-4 top-[70%] -translate-y-1/2 text-gray-600"
+                            className="absolute right-4 top-[60%] -translate-y-1/2 text-gray-600"
                         >
                             {showPassword ? (
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-5 h-5">
@@ -111,17 +163,24 @@ function Login() {
                             )}
                         </button>
                     </div>
-                    <button onClick={loginUser}
-                        className="block w-full text-center text-xl sm:text-2xl font-semibold bg-[#A60530] text-[#F2C879] py-2 rounded-full uppercase cursor-pointer">
-                        Sign In
-                    </button>
+                    <button
+    onClick={loginUser}
+    disabled={!emailValid || !passwordValid}  // disabled if either is invalid
+    className={`block w-full text-center text-xl sm:text-2xl font-semibold py-2 rounded-full uppercase
+        ${!emailValid || !passwordValid
+            ? "block w-full text-xl sm:text-2xl font-semibold bg-[#7a0424] text-[#F2C879] py-2 rounded-full uppercase cursor-not-allowed"
+            : "block w-full text-center text-xl sm:text-2xl font-semibold bg-[#A60530] text-[#F2C879] py-2 rounded-full uppercase cursor-pointer"
+        }`}
+>
+    Sign In
+</button>
 
-                    <div className="flex justify-center">
+                    {/* <div className="flex justify-center">
                         <Link to="/forgotpassword" className="cursor-pointer hover:text-[#A60530]">Forgot Password</Link>
-                    </div>
+                    </div> */}
                     <div className="flex justify-center gap-1">
                         <p>Don't have an account yet?</p>
-                        <Link to="/register" className="cursor-pointer hover:text-[#A60530]">Sign-up</Link>
+                        <Link to="/register" className="cursor-pointer hover:text-[#FF0000] text-[#A60530] hover:decoration-[#FF0000] underline decoration-[#A60530]">Sign-up</Link>
                     </div>
                 </div>
             </div>

@@ -6,7 +6,7 @@ function ReportedLostPets() {
     return (
         <div className="flex flex-col gap-4 justify-center items-center w-full h-auto mt-8">
             <div className="flex flex-col items-center gap-8 p-8 w-full bg-[rgba(255,255,255,0.21)] border border-white rounded-3xl shadow-lg">
-               <Header title={"Your Reported Lost Pets"} subtitle={"This page shows all the pets you’ve reported as found. You can view their details, update information, or delete a report. It helps you keep track of all your reports in one place."} />  
+               <Header title={"Your Reported Lost Pets"} subtitle={"This page shows all the pets you’ve reported as lost. You can view their details, update information, or delete a report. It helps you keep track of all your reports in one place."} />  
                 <div className="w-full sm:w-[90%] h-auto flex justify-center items-center ">
                     <div className="flex flex-wrap justify-center gap-6">
                         <ReportedLostPetCard />

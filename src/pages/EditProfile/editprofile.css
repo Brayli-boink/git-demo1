@@ -3,7 +3,8 @@
     flex-flow: column wrap;
     align-items: center;
     justify-content: center;
-    width: 70%;
+    width: 60%;
+    max-width: 600px;
     background-color: rgba(255, 255, 255, 0.21);
     outline: rgba(255, 255, 255, 0.60);
     outline-width: 1px;
@@ -12,8 +13,25 @@
     margin: auto;
     margin-top: 1.5rem;
 }
-#profile-pic {
+/* #profile-pic {
     width: 200px;
+} */
+
+.profile-pic-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem; /* space between image and button */
+}
+
+
+#profile-pic {
+    width: 100%;          /* scales relative to container */
+    max-width: 200px;     /* prevents image from being too big */
+    aspect-ratio: 1 / 1;  /* keeps square shape */
+    object-fit: cover;    /* ensures the image fills container without distortion */
+    border-radius: 50%;   /* makes it circular */
+    border: 2px solid rgba(0,0,0,0.1); /* optional: nice border around photo */
 }
 #edit-photo {
     background-color: #A60530;
@@ -33,6 +51,7 @@
     border-radius: 20px;
     padding: .3rem .3rem .3rem 1rem;
     width: 100%;
+    margin-bottom: -10px;
 }
 input:focus {
     outline: none;
@@ -54,13 +73,23 @@ input:focus {
     margin-bottom: 1.5rem;
 }
 #save-btn {
-    background-color: #F2C879;
+    background-color: #ecbc63;
     padding: .5rem 3rem .5rem 3rem;
     border-radius: 20px;
     color: #A60530;
     cursor: pointer;
     font-weight: 600;
     font-size: 1.2rem;
+}
+#save-btn-disabled {
+    background-color: #d89f35;
+    padding: .5rem 3rem .5rem 3rem;
+    border-radius: 20px;
+    color: #A60530;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.2rem;
+    cursor: not-allowed;
 }
 #cancel-btn {
     background-color: #A60530;
@@ -71,6 +100,13 @@ input:focus {
     font-weight: 600;
     font-size: 1.2rem;
 }
+#edit-form > .errorMsg {
+    color: #dc2626; /* red */
+    font-size: 0.8rem;
+    min-height: 18px;
+    font-weight: 400;
+}
+
 @media (max-width: 640px) {
     #edit-form {
         width: 70%;

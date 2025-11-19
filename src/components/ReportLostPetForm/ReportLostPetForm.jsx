@@ -20,6 +20,7 @@ const [ownerName, setOwnerName] = useState();
 const [conNum, setConNum] = useState();
 const [email, setEmail] = useState();
 const [age, setAge] = useState();
+const [picture, setPicture] = useState();
 
     const [user, setUser] = useState(); // holds the users
     const [userData, setUserData] = useState(); // holds user
@@ -57,7 +58,8 @@ const [age, setAge] = useState();
         ownerName: ownerName,
         conNum: conNum,
         email: email,
-        age: age
+        age: age,
+        petPhoto: picture
     };
 
     const petId = Math.random().toString(36).substr(2, 9); // e.g., "k3j4h9a1x"
@@ -233,11 +235,14 @@ const [age, setAge] = useState();
             errNumber.innerHTML = "";
             setConNum(null);
             
-            if (!tempNumber.startsWith("09")){
-                errNumber.innerHTML = "Valid number must start with (09)";
+            if (!tempNumber || tempNumber.trim() === "") {
+            errNumber.innerHTML = "Blank spaces are not allowed!";
             }
             else if (!/^[0-9]+$/.test(tempNumber)) {
-                errNumber.innerHTML = "Number cannot contain letters or symbols!";
+                errNumber.innerHTML = "Valid number cannot contain letters or symbols!";
+            }
+            else if (!tempNumber.startsWith("09")){
+                errNumber.innerHTML = "Valid number must start with (09)";
             }
             else if (tempNumber.trim().length !== 11) {
                 errNumber.innerHTML = "Valid number must be exactly 11 digits!";
@@ -281,6 +286,30 @@ const [age, setAge] = useState();
                 setAge(tempAge);
             }
         }
+        
+        function verifyPetPhoto(evt) {
+            let tempPhoto = evt.target.value;
+            let errPhoto = document.querySelector("#errPicture");
+            errPhoto.innerHTML = "";
+            setPicture(null);
+
+            if (tempPhoto.trim().length === 0) {
+                errPhoto.innerHTML = "Blank spaces are not allowed!";
+                return;
+            }
+            else if (!tempPhoto.startsWith("https://")) {
+                errPhoto.innerHTML = "URL must start with https://";
+                return;
+            }
+            else if (!tempPhoto.toLowerCase().endsWith(".jpg") && 
+            !tempPhoto.toLowerCase().endsWith(".png")) {
+                errPhoto.innerHTML = "Invalid picture format. Must end with png or jpg";
+                return;
+            }    
+            setPicture(tempPhoto);
+    }
+
+
 
         
 
@@ -340,7 +369,7 @@ const [age, setAge] = useState();
                     onInput={(evt)=>verifyAdditionalDetails(evt)} value={addDetails}/>
                     <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errAdditionalDetails"></p>
                     
-                    <p className='text-2xl sm:text-3xl font-semibold text-[#A60530]'>C. Owner Information<span className="text-red-600"> *</span></p>
+                    <p className='text-2xl sm:text-3xl font-semibold text-[#A60530]'>C. Owner Information</p>
                     
                     <p className='text-lg text-[#583523]'>Owner Name<span className="text-red-600"> *</span></p>
                     <input type="text" placeholder='Name of the Owner' className='w-full px-3 py-2 rounded-full border' 
@@ -367,12 +396,15 @@ const [age, setAge] = useState();
                     <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errAge"></p>
                     
                     <p className='text-lg text-[#583523]'>Photo of Pet<span className="text-red-600"> *</span></p>
-                    <input type="text" placeholder='Upload a clear image of the lost pet (JPG or PNG)' className='w-full px-3 py-2 rounded-full border' />
+                    <input type="text" placeholder='Upload a clear image of the lost pet (JPG or PNG)' className='w-full px-3 py-2 rounded-full border' 
+                    onInput={(evt)=>verifyPetPhoto(evt)} value={picture}/>
+                    <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errPicture"></p>
+                
                 </div>
             </div>
             <div className='w-full flex flex-col gap-2 items-center py-4 rounded-3xl'>
                 {petName && species && breed && color && gender && dateLost &&
-                        lastSeenLocation && addDetails && ownerName && conNum && email && age ? (
+                        lastSeenLocation && addDetails && ownerName && conNum && email && age && picture ? (
                 <button onClick={uploadLostPet} 
                 className="w-64 py-4 text-xl font-semibold text-[#FFCC6D] uppercase bg-[#A60530] rounded-full cursor-pointer flex items-center justify-center" >
                     Report Lost Pet</button>
