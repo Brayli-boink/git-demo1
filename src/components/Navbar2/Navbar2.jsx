@@ -1,14 +1,16 @@
 import { Link, useLocation } from "react-router";
 import { useEffect, useState, useRef } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../../firebase-config";
+import { auth, db } from "../../firebase-config";
 import DropdownMenu from "../DropdownMenu/DropdownMenu";
+import { onValue, ref } from "firebase/database";
 
 function Navbar2() {
     const [openDropdown, setOpenDropdown] = useState(false)
     const [user, setUser] = useState(null);
     const location = useLocation();
     const dropdownRef = useRef(null);
+    const [userProfile, setUserProfile] = useState();
 
     const isActive = (path) => location.pathname === path;
 
@@ -36,9 +38,22 @@ function Navbar2() {
         };
     }, []);
 
-    const handleLogout = () => {
-        signOut(auth);
-    };
+     useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (u) => {
+        if (u) {
+            setUser(u);
+
+            const userRef = ref(db, `user/${u.uid}`);
+            const userUnsub = onValue(userRef, (snapshot) => {
+                setUserProfile(snapshot.val());   // <-- store here
+            });
+
+            return () => userUnsub();
+        }
+    });
+
+    return () => unsubscribe();
+}, []);
 
     return (
         <div className="w-full h-12 py-6 flex items-center border border-[#F4F4F4] rounded-full shadow-lg bg-[rgba(244,244,244,0.12)]">
@@ -88,11 +103,11 @@ function Navbar2() {
                     Contact
                 </Link>
 
-                {user ? (
+                {user && userProfile ? (
                     <div className="flex gap-2">
                         <Link to="/profile">
                             <img
-                                src={user.photoURL || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_lvjjRAVDQ-nBDq_4dy1xCyRjjDaHV-Tqcw&s'}
+                                src={userProfile.photoURL ||  'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_lvjjRAVDQ-nBDq_4dy1xCyRjjDaHV-Tqcw&s'}
                                 alt="Profile"
                                 className="w-9 h-9 rounded-full border-2 border-[#A60530] object-cover cursor-pointer"
                             />

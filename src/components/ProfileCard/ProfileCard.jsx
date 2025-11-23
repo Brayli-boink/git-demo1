@@ -80,7 +80,7 @@ function ProfileCard() {
                     <Link to="/editprofile" className="px-12 py-2 text-lg sm:text-xl font-bold text-[#A60530] border border-white bg-[rgba(244,244,244,0.12)] rounded-full shadow-lg cursor-pointer hover:bg-[rgba(204,204,204,0.12)]">Edit Profile</Link>
                     <button
                         onClick={handleLogOut}
-                        className="px-12 py-2 mt-4 text-lg sm:text-xl font-bold text-[#F2C879] bg-[#A60530] rounded-full shadow-lg transition-colors duration-200 cursor-pointer"
+                        className="px-12 py-2 mt-4 text-lg sm:text-xl font-bold text-[#F2C879] bg-[#A60530] rounded-full shadow-lg transition-colors duration-200 cursor-pointer hover:bg-[#820424]"
                     >
                         Log Out
                     </button>

@@ -391,7 +391,7 @@ const [picture, setPicture] = useState();
                     {/* <p className='text-3xl font-semibold text-[#A60530] hidden block'>A. Pet Information</p> */}
                     
                     <p className='text-lg text-[#583523]'>Age/Approximate Age<span className="text-red-600"> *</span></p>
-                    <input type="text" placeholder='Pet’s age (if known)' className='w-full px-3 py-2 rounded-full border'
+                    <input type="text" placeholder='Pet’s age' className='w-full px-3 py-2 rounded-full border'
                     onInput={(evt)=>verifyAge(evt)} value={age}/>
                     <p className="text-[13px] text-red-600 mt-[5px] h-[10px]" id="errAge"></p>
                     

@@ -69,4 +69,8 @@
     border: rgba(254, 254, 254, 0.3) solid 1px;
     cursor: pointer;
 }
+#button-pets a:hover {
+    background-color: rgba(204, 204, 204, 0.12);
+    
+}
 
